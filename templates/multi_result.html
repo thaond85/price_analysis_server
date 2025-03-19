@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Price Analysis Result / Kết quả Phân tích Giá</title>
+    <style>
+        body { font-family: Arial, sans-serif; font-size: 18px; margin: 20px; }
+        h1 { text-align: center; margin-bottom: 30px; }
+        .file-section { border: 1px solid #ccc; padding: 20px; margin-bottom: 30px; border-radius: 10px; background-color: #f9f9f9; }
+        .file-section h2 { margin-bottom: 15px; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 40px; }
+        .grid p { margin: 8px 0; }
+        .highlight { background-color: #fffbcc; padding: 5px; border-radius: 5px; }
+        button { font-size: 16px; padding: 10px 20px; margin-top: 10px; border-radius: 5px; cursor: pointer; }
+        table { border-collapse: collapse; margin-top: 10px; width: 100%; }
+        table, th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
+        @media screen and (max-width: 600px) {
+            .grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <h1>📊 Phân tích Giá / Price Analysis</h1>
+
+    {% for result in results %}
+        <div class="file-section">
+            <h2>📄 File: {{ result.filename }}</h2>
+
+            {% if result.error %}
+                <p style="color:red; font-weight:bold;">❌ Lỗi: {{ result.error }}</p>
+            {% else %}
+                <div class="grid">
+                    <p>💰 Giá hiện tại: <strong>{{ result.data.current_price }}</strong></p>
+                    <p>📈 Xu hướng: <strong>{{ result.data.trend }}</strong></p>
+                    <p>MA10: {{ result.data.ma10 }}</p>
+                    <p>MA20: {{ result.data.ma20 }}</p>
+                    <p>MA50: {{ result.data.ma50 }}</p>
+                    <p>🕯️ Mô hình nến: {{ result.data.candle_pattern }}</p>
+                    <p>📊 Tín hiệu tăng giá: {{ '%.2f' % (result.data.signal_probability * 100) }}%</p>
+                </div>
+
+                <h3 style="margin-top: 20px;">📌 Khuyến nghị:</h3>
+                <div class="highlight">{{ result.data.advice | safe }}</div>
+
+                <h3 style="margin-top: 20px;">📋 Kết luận chi tiết / Detailed Conclusion</h3>
+                <div>{{ result.data.detailed_conclusion | safe }}</div>
+
+                <h3 style="margin-top: 20px;">📊 Chỉ báo kỹ thuật mở rộng</h3>
+                <div class="grid">
+                    <p>EMA10: {{ result.data.ema10 }}</p>
+                    <p>EMA20: {{ result.data.ema20 }}</p>
+                    <p>EMA50: {{ result.data.ema50 }}</p>
+                    <p>ADX14: {{ result.data.adx14 }}</p>
+                    <p>Stochastic K: {{ result.data.stoch_k }}</p>
+                    <p>Stochastic D: {{ result.data.stoch_d }}</p>
+                    <p>VWAP: {{ result.data.vwap }}</p>
+                    <p>CMF20: {{ result.data.cmf20 }}</p>
+                    <p>Volume Oscillator: {{ result.data.volume_osc }}</p>
+                    <p>Ichimoku Conversion: {{ result.data.ichimoku_conversion }}</p>
+                    <p>Ichimoku Base: {{ result.data.ichimoku_base }}</p>
+                    <p>Ichimoku Span A: {{ result.data.ichimoku_span_a }}</p>
+                    <p>Ichimoku Span B: {{ result.data.ichimoku_span_b }}</p>
+                </div>
+                <div class="highlight">{{ result.data.recommendations | safe }}</div>
+            {% endif %}
+        </div>
+    {% endfor %}
+
+    <form action="/" method="get">
+        <button type="submit">🔙 Quay lại / Back</button>
+    </form>
+</body>
+</html>

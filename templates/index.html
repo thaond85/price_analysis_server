@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Price Analysis</title>
+</head>
+<body>
+    <h1>Phân tích Giá</h1>
+    <form action="/analyze" enctype="multipart/form-data" method="post">
+        <label for="files">Chọn file CSV (có thể chọn nhiều file):</label>
+        <input type="file" id="files" name="files" accept=".csv" multiple required><br><br>
+
+        <input type="submit" value="Phân tích">
+    </form>
+</body>
+</html>

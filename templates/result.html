@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Price Analysis Result / Kết quả Phân tích Giá</title>
+    <style>
+        ul {
+            list-style-type: disc;
+            margin-left: 20px;
+        }
+        p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Phân tích Giá / Price Analysis</h1>
+    <p>Giá hiện tại: {{ data.current_price }}</p>
+    <p>Xu hướng: {{ data.trend }}</p>
+    <p>MA10: {{ data.ma10 }}</p>
+    <p>MA20: {{ data.ma20 }}</p>
+    <p>MA50: {{ data.ma50 }}</p>
+    <p>Mô hình nến: {{ data.candle_pattern }}</p>
+    <p>Tỷ lệ tín hiệu tăng giá: {{ data.signal_probability * 100 }}%</p>
+    <div>{{ data.advice | safe }}</div>
+
+    <h2>Kết luận chi tiết / Detailed Conclusion</h2>
+    <div>{{ data.detailed_conclusion | safe }}</div>
+
+    <form action="/" method="get">
+        <button type="submit">Quay lại / Back</button>
+    </form>
+</body>
+</html>
