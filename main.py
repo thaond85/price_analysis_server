@@ -594,3 +594,47 @@ async def analyze_multiple_files(request: Request, files: List[UploadFile] = Fil
 def cleanup():
     if os.path.exists("temp.csv"):
         os.remove("temp.csv")
+
+
+from fastapi import Form
+from vnstock import stock_historical_data
+
+@app.post("/analyze_tickers", response_class=HTMLResponse)
+async def analyze_multiple_tickers(
+    request: Request,
+    symbols: str = Form(...),
+    start_date: str = Form(...),
+    end_date: str = Form(...)
+):
+    try:
+        symbols_list = [s.strip().upper() for s in symbols.split(",") if s.strip()]
+        if not symbols_list:
+            raise HTTPException(status_code=400, detail="Chưa nhập mã cổ phiếu hợp lệ.")
+
+        all_results = []
+        for symbol in symbols_list:
+            try:
+                df = stock_historical_data(symbol=symbol, start_date=start_date, end_date=end_date)
+                if len(df) < 50:
+                    result = {"symbol": symbol, "error": "Dữ liệu không đủ để phân tích"}
+                else:
+                    analysis = analyze_trend(df)
+                    if analysis:
+                        analysis['forecast_df'] = (
+                            analysis['forecast_df'].astype({'Date': str}).to_dict(orient='records')
+                            if isinstance(analysis['forecast_df'], pd.DataFrame)
+                            else []
+                        )
+                        result = {"symbol": symbol, "data": analysis}
+                    else:
+                        result = {"symbol": symbol, "error": "Không đủ dữ liệu để phân tích"}
+            except Exception as e:
+                result = {"symbol": symbol, "error": f"Lỗi: {str(e)}"}
+            all_results.append(result)
+
+        return templates.TemplateResponse("multi_ticker_result.html", {
+            "request": request,
+            "results": all_results
+        })
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Lỗi tổng thể: {str(e)}")

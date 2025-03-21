@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Kết quả phân tích</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            margin: 20px;
+        }
+        h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+        .ticker-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .ticker-card {
+            flex: 1 1 45%;
+            border: 1px solid #ccc;
+            padding: 15px;
+            box-shadow: 2px 2px 10px #ccc;
+            font-size: 16px;
+            background-color: #f9f9f9;
+        }
+        .ticker-card h2 {
+            margin-top: 0;
+            font-size: 24px;
+            color: #003366;
+        }
+        .ticker-card p {
+            margin: 5px 0;
+        }
+        .section-title {
+            font-weight: bold;
+            margin-top: 15px;
+            font-size: 18px;
+            color: #444;
+            text-decoration: underline;
+        }
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Kết quả phân tích nhiều mã cổ phiếu</h1>
+    <div class="ticker-container">
+        {% for result in results %}
+            <div class="ticker-card">
+                <h2>{{ result.symbol }}</h2>
+                {% if result.error %}
+                    <p class="error">{{ result.error }}</p>
+                {% else %}
+                    <p><strong>Giá hiện tại:</strong> {{ result.data.current_price | round(2) }}</p>
+                    <p><strong>Xác suất tăng giá:</strong> {{ (result.data.signal_probability * 100) | round(2) }}%</p>
+
+                    <div class="section-title">📌 Tư vấn</div>
+                    <div>{{ result.data.advice | safe }}</div>
+
+                    <div class="section-title">🔍 Phân tích chi tiết</div>
+                    <div>{{ result.data.detailed_conclusion | safe }}</div>
+
+                    <!-- <div class="section-title">📊 Khuyến nghị kỹ thuật mở rộng</div> -->
+                    <div>{{ result.data.recommendations | safe }}</div>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+
+    <form action="/" method="get">
+        <button type="submit">Quay lại / Back</button>
+    </form>
+
+</body>
+</html>

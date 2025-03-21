@@ -9,3 +9,6 @@ requests==2.32.3
 jinja2==3.1.4
 python-multipart==0.0.9
 plotly==5.24.0
+vnstock
+beautifulsoup4
+IPython

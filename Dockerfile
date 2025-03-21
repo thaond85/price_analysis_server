@@ -37,6 +37,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Cài đặt Python wrapper cho TA-Lib (phiên bản tương thích với TA-Lib 0.4.0)
 RUN pip install TA-Lib==0.4.32
 
+RUN pip install vnstock
+RUN pip install beautifulsoup4
+RUN pip install IPython
+
+
 # Sao chép các file cần thiết vào container
 COPY main.py .
 COPY templates/ templates/

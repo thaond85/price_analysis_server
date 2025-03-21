@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Kết quả phân tích {{ symbol }}</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+    <h2>Phân tích cổ phiếu: {{ symbol }}</h2>
+
+    {% if data %}
+        <div class="analysis-box">
+            <p class="highlight-text">Giá hiện tại: {{ "%.f"|format(data.current_price) }}</p>
+            <p class="highlight-text">
+                Xác suất tăng giá: 
+                <span class="percentage">{{ "%.2f"|format(data.signal_probability * 100) }}%</span>
+            </p>
+
+            <p class="highlight-text">Xu hướng: {{ data.trend }}</p>
+
+            <div>
+                <h3>Tư vấn</h3>
+                <div>{{ data.advice | safe }}</div>
+            </div>
+
+            <div>
+                <!-- <h3>Phân tích chi tiết</h3> -->
+                <div>{{ data.detailed_conclusion | safe }}</div>
+            </div>
+
+            <div>
+                <!-- <h3>Khuyến nghị nâng cao</h3> -->
+                <div>{{ data.recommendations | safe }}</div>
+            </div>
+
+            <!-- {% if data.forecast_df %}
+                <h3>Dự đoán giá ARIMA (5 ngày tới)</h3>
+                <ul>
+                    {% for item in data.forecast_df %}
+                        <li>{{ item.Date }}: {{ "%.2f"|format(item.Predicted_Price) }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %} -->
+        </div>
+    {% else %}
+        <p class="error-text">Không có dữ liệu để hiển thị!</p>
+    {% endif %}
+
+</body>
+</html>
+
+
+
+<!-- <!DOCTYPE html>
+<html>
+<head>
+    <title>Kết quả phân tích</title>
+</head>
+<body>
+    <h1>Kết quả phân tích cho mã: {{ symbol }}</h1>
+    <p><strong>Xu hướng:</strong> {{ data.trend }}</p>
+    <p><strong>Giá hiện tại:</strong> {{ data.current_price }}</p>
+    <p><strong>Xác suất tăng giá:</strong> {{ data.signal_probability * 100 }}%</p>
+    <p><strong>Khuyến nghị:</strong></p>
+    <div>{{ data.advice|safe }}</div>
+    <hr>
+    <p><strong>Chi tiết:</strong></p>
+    <div>{{ data.detailed_conclusion|safe }}</div>
+    <hr>
+    <div>{{ data.recommendations|safe }}</div>
+</body>
+</html> -->

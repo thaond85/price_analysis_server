@@ -1,0 +1,38 @@
+/* style.css */
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    margin: 20px;
+}
+
+h2, h3 {
+    color: #2E86C1; /* Xanh đậm */
+    margin-bottom: 10px;
+}
+
+.highlight-text {
+    font-size: 22px;
+    color: #2C3E50;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.analysis-box {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.percentage {
+    color: #27AE60; /* Màu xanh tăng */
+    font-size: 22px;
+}
+
+.error-text {
+    color: red;
+    font-weight: bold;
+}
